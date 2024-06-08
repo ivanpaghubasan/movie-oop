@@ -4,7 +4,6 @@ public class Main {
 
     static Store store = new Store();
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
 
         Movie[] movies = new Movie[]{
             new Movie("The Shawshank Redemption", "BlueRay", 9.2),
@@ -23,28 +22,29 @@ public class Main {
             store.setMovie(i, movies[i]);
         }
        
-        while (true) {
+        store.printStore();
+        userInput();
+    }
+
+    public static void userInput() {
+        Scanner scanner = new Scanner(System.in);
+        String status = "continue";
+
+        while (status.equals("continue")) {
+            System.out.print("\nPlease choose an integer between 0 - 9: ");
+            int index = scanner.nextInt();
+            Movie movie = store.getMovie(index);
+            System.out.print("\nSet a new rating for " + movie.getName() + ": ");
+            double rating = scanner.nextDouble();
+            movie.setRating(rating);
+            store.setMovie(index, movie);
+
             store.printStore();
+
             System.out.print("\nTo edit another rating, type: 'continue': ");
-            String input = scanner.next();
-            if (input.equals("continue")) {
-                store.printStore();
-                System.out.print("\nPlease choose an integer between 0 - 9: ");
-                int index = scanner.nextInt();
-
-                Movie movie = store.getMovie(index);
-                System.out.print("\nSet a new rating for " + movie.getName() + ": ");
-                double rating = scanner.nextDouble();
-                movie.setRating(rating);
-
-                store.setMovie(index, movie);
-                store.printStore();
-            } else {
-                scanner.close();
-                System.exit(0);
-            }
+            status = scanner.next();
         }
 
-        
+        scanner.close();
     }
 }
